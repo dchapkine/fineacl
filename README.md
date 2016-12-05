@@ -60,9 +60,6 @@ First, let's define our resource types.
 ```
 acl.resource("REPOSITORY", {
 
-    // select attributes whitelist
-    attributes: ["id"],
-
     // define available acces roles
     roles: {
         READ:   "Gives read only access to the repository",
