@@ -11,7 +11,7 @@ class DummyStoreImplementation extends StoreImplementation {
     this.groups_x_resources = new Map();
   }
 
-  getUserRolesByResource (userId, resourceType, resourceId, cb) {
+  getUserPermissionsByResource (userId, resourceType, resourceId, cb) {
     
     let key = userId+"__"+resourceType+"__"+resourceId;
 
@@ -22,59 +22,59 @@ class DummyStoreImplementation extends StoreImplementation {
     return cb(null, []);
   }
 
-  assertRelationship (userId, resourceType, resourceId, wantedRoles, cb) {
+  assertRelationship (userId, resourceType, resourceId, wantedPermissions, cb) {
     
     let key = userId+"__"+resourceType+"__"+resourceId;
 
     if (this.users_x_resources.has(key))
     {
-      let storedRoles = this.users_x_resources.get(key);
-      for (let i = 0; i < wantedRoles.length; i++) {
-        if (storedRoles.indexOf(wantedRoles[i]) === -1) return cb(null, false);
+      let storedPermissions = this.users_x_resources.get(key);
+      for (let i = 0; i < wantedPermissions.length; i++) {
+        if (storedPermissions.indexOf(wantedPermissions[i]) === -1) return cb(null, false);
       }
-      // all wantedRoles were found, success
+      // all wantedPermissions were found, success
       return cb(null, true);
     }
     return cb(null, false);
   }
   
-  replaceRelationship (userId, resourceType, resourceId, newRoles, cb) {
+  replaceRelationship (userId, resourceType, resourceId, newPermissions, cb) {
     
     let key = userId+"__"+resourceType+"__"+resourceId;
 
-    this.users_x_resources.set(key, newRoles);
+    this.users_x_resources.set(key, newPermissions);
     cb(null, true);
   }
   
-  syncRelationship (userId, resourceType, resourceId, newRoles, cb) {
+  syncRelationship (userId, resourceType, resourceId, newPermissions, cb) {
     
     let key = userId+"__"+resourceType+"__"+resourceId;
 
     if (!this.users_x_resources.has(key))
     {
-      this.users_x_resources.set(key, newRoles);  
+      this.users_x_resources.set(key, newPermissions);  
     }
     else
     {
-      let allRoles = this.users_x_resources.get(key);
+      let allPermissions = this.users_x_resources.get(key);
 
-      for (let i = 0; i < newRoles.length; i++)
+      for (let i = 0; i < newPermissions.length; i++)
       {
-        if (allRoles.indexOf(newRoles[i]) == -1) {
-          allRoles.push(newRoles[i]);
+        if (allPermissions.indexOf(newPermissions[i]) == -1) {
+          allPermissions.push(newPermissions[i]);
         }
       }
 
-      this.users_x_resources.set(key, allRoles);
+      this.users_x_resources.set(key, allPermissions);
     }
     cb(null, true);
   }
 
-  breakRelationship (userId, resourceType, resourceId, unwantedRoles, cb) {
+  breakRelationship (userId, resourceType, resourceId, unwantedPermissions, cb) {
     
     let key = userId+"__"+resourceType+"__"+resourceId;
 
-    // todo: make a diff between unwantedRoles and stored roles
+    // todo: make a diff between unwantedPermissions and stored permissions
     this.users_x_resources.delete(key);
     cb(null, true);
   }

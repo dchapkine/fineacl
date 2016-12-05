@@ -23,7 +23,7 @@ class FineAcl {
     if (!params.userId) return null;
     if (!params.resourceType) return null;
     if (!params.resourceId) return null;
-    if (!params.roles) return null;
+    if (!params.permissions) return null;
     return new Relationship(params, {
       store: this.store
     });
@@ -41,22 +41,22 @@ class FineAcl {
     {
       if (!name) return null;
       if (!params) return null;
-      if (!params.roles) return null;
+      if (!params.permissions) return null;
       this.resources.set(name, new Resource(params));
     }
     return this.resources.get(name);
   }
 
   /**
-   * Lists all roles of a user on a particular resource
+   * Lists all permissions of a user on a particular resource
    *
    * @param string|int userId
    * @param string resourceType
    * @param string|int resourceId
    * @param function cb
    */
-  getUserRolesByResource (userId, resourceType, resourceId, cb) {
-    return this.store.getUserRolesByResource(userId, resourceType, resourceId, cb);
+  getUserPermissionsByResource (userId, resourceType, resourceId, cb) {
+    return this.store.getUserPermissionsByResource(userId, resourceType, resourceId, cb);
   }
   
 

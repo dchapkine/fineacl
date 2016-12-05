@@ -63,8 +63,8 @@ First, let's define our resource types.
 ```
 acl.resource("REPOSITORY", {
 
-    // define available acces roles
-    roles: {
+    // define available permissions
+    permissions: {
         READ:   "Gives read only access to the repository",
         REVIEW: "Gives review publish ability",
         MERGE:  "Gives merge access to any branch of the repository",
@@ -82,7 +82,7 @@ let rel = acl.rel({
 	userId: 1234,
 	resourceType: "REPOSITORY",
 	resourceId: 5678,
-	roles: ["READ", "REVIEW", "MERGE"]
+	permissions: ["READ", "REVIEW", "MERGE"]
 });
 ```
 
@@ -96,7 +96,7 @@ rel.assert((err, exists) => {
 ```
 
 
-We can enforce this relationship, using sync method, to add new roles, while keeping existing ones:
+We can enforce this relationship, using sync method, to add new permissions, while keeping existing ones:
 
 ```
 rel.sync((err, success) => {

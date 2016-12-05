@@ -25,7 +25,7 @@ describe('FineAcl', () => {
       }));
     })
     
-    it('should return null if roles param is missing', () => {
+    it('should return null if permissions param is missing', () => {
       assert.equal(null, fineacl().rel({
         userId: 1234,
         resourceType: "REPOSITORY",
@@ -38,7 +38,7 @@ describe('FineAcl', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       }).constructor.name);
     })
 
@@ -60,14 +60,14 @@ describe('FineAcl', () => {
       assert.equal(null, fineacl().resource("REPOSITORY"));
     })
 
-    it('should return null if params.roles param is missing', () => {
+    it('should return null if params.permissions param is missing', () => {
       assert.equal(null, fineacl().resource("REPOSITORY", {
       }));
     })
 
     it('should return "Resource" class instance if all params are supplied with correct types', () => {
       assert.equal("Resource", fineacl().resource("REPOSITORY", {
-        roles: {"READ": "", "REVIEW": "", "MERGE": ""}
+        permissions: {"READ": "", "REVIEW": "", "MERGE": ""}
       }).constructor.name);
     })
 

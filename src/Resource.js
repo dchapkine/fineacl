@@ -1,10 +1,10 @@
 class Resource {
 
   constructor(params) {
-    this.roles = params.roles;
+    this.permissions = params.permissions;
   }
 
-  rolesExist(roles) {
+  permissionsExist(permissions) {
     // todo
   }
 }

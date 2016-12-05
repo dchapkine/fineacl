@@ -12,7 +12,7 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
       rel.assert((err, successChecking) => {
@@ -29,7 +29,7 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
       rel.replace((err, succesEnforcing) => {
@@ -55,7 +55,7 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
       rel.replace((err, succesEnforcing) => {
@@ -80,7 +80,7 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
       rel.replace((err, succesEnforcing) => {
@@ -100,9 +100,9 @@ describe('Relationship', () => {
 
 
 
-  describe('Relationship#getPersistedRoles', () => {
+  describe('Relationship#getPersistedPermissions', () => {
 
-    it("should callback with persistedRoles=[] on a user that has no roles for this resource" , () => {
+    it("should callback with persistedPermissions=[] on a user that has no permissions for this resource" , () => {
 
       let acl = fineacl();
 
@@ -110,17 +110,17 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
-      rel.getPersistedRoles((err, persistedRoles) => {
-          assert.deepEqual([], persistedRoles);
+      rel.getPersistedPermissions((err, persistedPermissions) => {
+          assert.deepEqual([], persistedPermissions);
       })
 
     })
 
 
-    it('should callback with persistedRoles=["READ", "REVIEW", "MERGE"] after enforcing this rules' , () => {
+    it('should callback with persistedPermissions=["READ", "REVIEW", "MERGE"] after enforcing this rules' , () => {
 
       let acl = fineacl();
 
@@ -128,14 +128,14 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["READ", "REVIEW", "MERGE"]
+        permissions: ["READ", "REVIEW", "MERGE"]
       });
 
       rel.replace((err, succesEnforcing) => {
         assert.equal(true, succesEnforcing);
 
-        rel.getPersistedRoles((err, persistedRoles) => {
-            assert.deepEqual(["READ", "REVIEW", "MERGE"], persistedRoles);
+        rel.getPersistedPermissions((err, persistedPermissions) => {
+            assert.deepEqual(["READ", "REVIEW", "MERGE"], persistedPermissions);
         })
       })
 
@@ -147,7 +147,7 @@ describe('Relationship', () => {
 
 
   describe('Relationship#replace', () => {
-    it('should callback with persistedRoles=["BLUE"] after enforcing 2 separate relations: ["RED", "GREEN"] and ["BLUE"]' , () => {
+    it('should callback with persistedPermissions=["BLUE"] after enforcing 2 separate relations: ["RED", "GREEN"] and ["BLUE"]' , () => {
 
       let acl = fineacl();
 
@@ -155,14 +155,14 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["RED", "GREEN"]
+        permissions: ["RED", "GREEN"]
       });
 
       let rel2 = acl.rel({
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["BLUE"]
+        permissions: ["BLUE"]
       });
 
       rel.replace((err, succesEnforcing) => {
@@ -171,8 +171,8 @@ describe('Relationship', () => {
         rel2.replace((err, succesEnforcing2) => {
           assert.equal(true, succesEnforcing2);
 
-          rel.getPersistedRoles((err, persistedRoles) => {
-              assert.deepEqual(["BLUE"], persistedRoles);
+          rel.getPersistedPermissions((err, persistedPermissions) => {
+              assert.deepEqual(["BLUE"], persistedPermissions);
           })
 
         })
@@ -187,7 +187,7 @@ describe('Relationship', () => {
   describe('Relationship#sync', () => {
 
 
-    it('should add new roles while keeping old ones, after enforcing 2 separate relations: ["RED", "GREEN"] and ["BLUE"], resulting in ["RED", "GREEN", "BLUE"]' , () => {
+    it('should add new permissions while keeping old ones, after enforcing 2 separate relations: ["RED", "GREEN"] and ["BLUE"], resulting in ["RED", "GREEN", "BLUE"]' , () => {
 
       let acl = fineacl();
 
@@ -195,14 +195,14 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["RED", "GREEN"]
+        permissions: ["RED", "GREEN"]
       });
 
       let rel2 = acl.rel({
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["BLUE"]
+        permissions: ["BLUE"]
       });
 
       rel.sync((err, succesEnforcing) => {
@@ -211,8 +211,8 @@ describe('Relationship', () => {
         rel2.sync((err, succesEnforcing2) => {
           assert.equal(true, succesEnforcing2);
 
-          rel.getPersistedRoles((err, persistedRoles) => {
-              assert.deepEqual(["RED", "GREEN", "BLUE"], persistedRoles);
+          rel.getPersistedPermissions((err, persistedPermissions) => {
+              assert.deepEqual(["RED", "GREEN", "BLUE"], persistedPermissions);
           })
 
         })
@@ -220,7 +220,7 @@ describe('Relationship', () => {
     })
 
 
-    it('should eliminate duplicate roles, after enforcing 2 separate relations: ["RED", "GREEN"] and ["RED", "BLUE"], resulting in ["RED", "GREEN", "BLUE"]' , () => {
+    it('should eliminate duplicate permissions, after enforcing 2 separate relations: ["RED", "GREEN"] and ["RED", "BLUE"], resulting in ["RED", "GREEN", "BLUE"]' , () => {
 
       let acl = fineacl();
 
@@ -228,14 +228,14 @@ describe('Relationship', () => {
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["RED", "GREEN"]
+        permissions: ["RED", "GREEN"]
       });
 
       let rel2 = acl.rel({
         userId: 1234,
         resourceType: "REPOSITORY",
         resourceId: 5678,
-        roles: ["RED", "BLUE"]
+        permissions: ["RED", "BLUE"]
       });
 
       rel.sync((err, succesEnforcing) => {
@@ -244,8 +244,8 @@ describe('Relationship', () => {
         rel2.sync((err, succesEnforcing2) => {
           assert.equal(true, succesEnforcing2);
 
-          rel.getPersistedRoles((err, persistedRoles) => {
-              assert.deepEqual(["RED", "GREEN", "BLUE"], persistedRoles);
+          rel.getPersistedPermissions((err, persistedPermissions) => {
+              assert.deepEqual(["RED", "GREEN", "BLUE"], persistedPermissions);
           })
 
         })
