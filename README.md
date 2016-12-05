@@ -27,6 +27,15 @@ Here is a list of real life usecases where this type library could be used:
 - allow a user to access my slack channel
 
 
+# Run tests
+
+Tests are written using mocha, you can run it using:
+
+```
+npm test
+```
+
+
 # Quickstart
 
 ## Install
@@ -36,8 +45,12 @@ npm install fineacl --save
 ```
 
 ```
-let fineacl = require('fineacl');
+const fineacl = require('fineacl');
 ```
+
+## Acl instance
+
+let acl = fineacl();
 
 
 ## Resource
@@ -45,7 +58,7 @@ let fineacl = require('fineacl');
 First, let's define our resource types.
 
 ```
-fineacl.resource("REPOSITORY", {
+acl.resource("REPOSITORY", {
 
     // select attributes whitelist
     attributes: ["id"],
@@ -65,12 +78,10 @@ fineacl.resource("REPOSITORY", {
 A relationship between a `user` and a `resource` is a key concept in fineacl.
 
 ```
-let rel = fineacl.rel({
-	user: 1234,
-	resourceType: "REPOSITORY"
-	resourceAttr: {
-		id: 1234
-	},
+let rel = acl.rel({
+	userId: 1234,
+	resourceType: "REPOSITORY",
+	resourceId: 5678,
 	roles: ["READ", "REVIEW", "MERGE"]
 });
 ```
@@ -85,10 +96,19 @@ rel.assert((err, exists) => {
 ```
 
 
-We can enforce this relationship, using enforce method:
+We can enforce this relationship, using sync method, to add new roles, while keeping existing ones:
 
 ```
-rel.enforce((err, success) => {
+rel.sync((err, success) => {
+	console.log(success?"access granted":"can't grant access, check err")
+});
+```
+
+
+Alternatively we can enforce this relationship, using replace method, to replace existing ones:
+
+```
+rel.replace((err, success) => {
 	console.log(success?"access granted":"can't grant access, check err")
 });
 ```
