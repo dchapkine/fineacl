@@ -34,7 +34,7 @@ Here is a list of real life usecases where this type library could be used:
 
 Tests are written using mocha, you can run it using:
 
-```
+```bash
 npm test
 ```
 
@@ -43,24 +43,25 @@ npm test
 
 ## Install
 
-```
+```js
 npm install fineacl --save
 ```
 
-```
+```js
 const fineacl = require('fineacl');
 ```
 
 ## Acl instance
 
+```js
 let acl = fineacl();
-
+```
 
 ## Resource
 
 First, let's define our resource types.
 
-```
+```js
 acl.resource("REPOSITORY", {
 
     // define available permissions
@@ -77,7 +78,7 @@ acl.resource("REPOSITORY", {
 
 A relationship between a `user` and a `resource` is a key concept in fineacl.
 
-```
+```js
 let rel = acl.rel({
 	userId: 1234,
 	resourceType: "REPOSITORY",
@@ -89,7 +90,7 @@ let rel = acl.rel({
 
 Once we defined a relationship, we can check its existence with assert method:
 
-```
+```js
 rel.assert((err, exists) => {
 	console.log(exists?"access to resource granted":"access to resource denied")
 });
@@ -98,7 +99,7 @@ rel.assert((err, exists) => {
 
 We can enforce this relationship, using sync method, to add new permissions, while keeping existing ones:
 
-```
+```js
 rel.sync((err, success) => {
 	console.log(success?"access granted":"can't grant access, check err")
 });
@@ -107,7 +108,7 @@ rel.sync((err, success) => {
 
 Alternatively we can enforce this relationship, using replace method, to replace existing ones:
 
-```
+```js
 rel.replace((err, success) => {
 	console.log(success?"access granted":"can't grant access, check err")
 });
@@ -116,7 +117,7 @@ rel.replace((err, success) => {
 
 We can remove this relationship, using break method:
 
-```
+```js
 rel.break((err, success) => {
 	console.log(success?"relationship broken successfully":"can't break relationship, check err")
 });
