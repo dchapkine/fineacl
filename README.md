@@ -7,7 +7,7 @@ FINEACL is a fine grained ACL library for node
 
 # What ???
 
-FINEACL is a document/row level access contol library that handles user defined ACLs.
+FINEACL is a document/row level access contol library that handles per user, per resource, user defined ACLs.
 
 
 # Why
