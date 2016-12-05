@@ -1,5 +1,8 @@
 
 
+[![Build Status](https://travis-ci.org/dchapkine/fineacl.svg?branch=master)](https://travis-ci.org/dchapkine/fineacl)
+
+
 # What ?
 
 FineACL is a fine grained ACL library for node
