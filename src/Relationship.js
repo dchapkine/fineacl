@@ -9,6 +9,7 @@ class Relationship {
   }
 
   assert(cb) {
+    cb = cb||(function(){});
     this._storeImplementation.assertRelationship(this.userId, this.resourceType, this.resourceId, this.permissions, cb);
   }
 
@@ -18,6 +19,7 @@ class Relationship {
    * @param function cb
    */
   sync(cb) {
+    cb = cb||(function(){});
     this._storeImplementation.syncRelationship(this.userId, this.resourceType, this.resourceId, this.permissions, cb);
   }
 
@@ -27,19 +29,23 @@ class Relationship {
    * @param function cb
    */
   replace(cb) {
+    cb = cb||(function(){});
     this._storeImplementation.replaceRelationship(this.userId, this.resourceType, this.resourceId, this.permissions, cb);
   }
 
   break(cb) {
+    cb = cb||(function(){});
     this._storeImplementation.breakRelationship(this.userId, this.resourceType, this.resourceId, this.permissions, cb);
   }
 
   getPersistedPermissions(cb) {
+    cb = cb||(function(){});
     this._storeImplementation.getUserPermissionsByResource(this.userId, this.resourceType, this.resourceId, cb)
   }
 
   // make a diff between this.permissions in memory and permissions stores in persistent storage
   diffPermissions(cb) {
+    cb = cb||(function(){});
     // todo
   }
 }
