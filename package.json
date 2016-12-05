@@ -1,6 +1,6 @@
 {
   "name": "fineacl",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Fine grained ACL library for node",
   "main": "src/index.js",
   "dependencies": {},
